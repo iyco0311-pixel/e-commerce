@@ -3,6 +3,7 @@ import { addToCart } from "./cart.js";
 
 const grid = document.querySelector("#grid");
 
+// Render the product grid by mapping over the products array and creating HTML for each product
 grid.innerHTML = products
   .map((p) => {
     return `
@@ -18,6 +19,7 @@ grid.innerHTML = products
   })
   .join("");
 
+// Add a click event listener to the grid to handle "Add" button clicks
 grid.addEventListener("click", (e) => {
   const btn = e.target.closest("button[data-id]");
   if (!btn) return;

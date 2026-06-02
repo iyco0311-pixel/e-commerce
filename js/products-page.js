@@ -3,26 +3,41 @@ import { addToCart } from "./cart.js";
 
 const grid = document.querySelector("#grid");
 
-// Render the product grid by mapping over the products array and creating HTML for each product
 grid.innerHTML = products
-  .map((p) => {
+  .map((product) => {
     return `
-      <article class="card">
+      <article class="product-card">
+        <div class="product-image" aria-label="${product.name}">
+          ${product.emoji}
+        </div>
+
         <div class="card-body">
-          <h2 class="card-title">${p.name}</h2>
-          <p class="card-price">${p.price} SEK</p>
-          <a class="btn" href="./product.html?id=${encodeURIComponent(p.id)}">View</a>
-          <button class="btn" data-id="${p.id}">Add</button>
+          <h2 class="card-title">${product.name}</h2>
+          <p class="card-description">${product.description}</p>
+          <p class="card-price">${product.price} SEK</p>
+
+          <div class="card-actions">
+            <a class="button" href="./product.html?id=${encodeURIComponent(product.id)}">
+              View details
+            </a>
+
+            <button data-id="${product.id}">
+              Add to cart
+            </button>
+          </div>
         </div>
       </article>
     `;
   })
   .join("");
 
-// Add a click event listener to the grid to handle "Add" button clicks
-grid.addEventListener("click", (e) => {
-  const btn = e.target.closest("button[data-id]");
-  if (!btn) return;
+grid.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-id]");
 
-  addToCart(btn.dataset.id, 1);
+  if (!button) {
+    return;
+  }
+
+  addToCart(button.dataset.id, 1);
+  button.textContent = "Added";
 });
